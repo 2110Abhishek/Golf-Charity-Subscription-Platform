@@ -76,8 +76,9 @@ export default async function AdminDashboardPage() {
             <h3 className="text-2xl font-bold">Recent Signups</h3>
             <Link href="/admin/users" className="text-sm font-bold text-primary hover:underline">View All Users</Link>
           </div>
-          <div className="rounded-[2.5rem] border border-white/5 overflow-hidden">
-            <table className="w-full text-left">
+          <div className="rounded-[2.5rem] border border-white/5 overflow-hidden bg-white/5">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left min-w-[600px]">
               <thead className="bg-white/5 border-b border-white/5">
                 <tr>
                   <th className="px-8 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">User</th>
@@ -116,6 +117,7 @@ export default async function AdminDashboardPage() {
             </table>
           </div>
         </div>
+      </div>
 
         <div className="space-y-6">
           <h3 className="text-2xl font-bold">System Health</h3>

@@ -127,8 +127,9 @@ export default async function DashboardPage() {
           <Link href="/dashboard/scores" className="text-sm font-bold text-primary hover:underline">View All</Link>
         </div>
         
-        <div className="rounded-[2rem] border border-white/5 overflow-hidden">
-          <table className="w-full text-left">
+        <div className="rounded-[2rem] border border-white/5 overflow-hidden bg-white/5">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left min-w-[500px]">
             <thead className="bg-white/5 border-b border-white/5">
               <tr>
                 <th className="px-8 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Date</th>
@@ -158,7 +159,8 @@ export default async function DashboardPage() {
                 ))
               )}
             </tbody>
-          </table>
+            </table>
+          </div>
         </div>
       </div>
     </div>
