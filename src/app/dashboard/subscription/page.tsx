@@ -95,7 +95,10 @@ export default async function SubscriptionPage() {
               </div>
             </div>
 
-            <form action={processMockPayment}>
+            <form action={async (formData) => {
+              'use server'
+              await processMockPayment(formData)
+            }}>
               <input type="hidden" name="planId" value={plan.id} />
               <button 
                 type="submit"

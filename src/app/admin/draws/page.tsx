@@ -30,7 +30,10 @@ export default async function AdminDrawsPage() {
             Configure, simulate, and publish the monthly prize pool rewards based on subscriber performance.
           </p>
         </div>
-        <form action={createNextDraw}>
+        <form action={async () => {
+          'use server'
+          await createNextDraw()
+        }}>
           <button className="flex items-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all">
             <Plus className="w-5 h-5" />
             Create Next Draw

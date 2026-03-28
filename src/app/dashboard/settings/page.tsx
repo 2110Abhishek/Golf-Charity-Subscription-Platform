@@ -65,7 +65,10 @@ export default async function SettingsPage() {
               <h3 className="text-2xl font-bold">Charity Impact</h3>
             </div>
             
-            <form action={updateUserSettings} className="space-y-8">
+            <form action={async (formData) => {
+              'use server'
+              await updateUserSettings(formData)
+            }} className="space-y-8">
               <div className="space-y-4">
                 <label className="text-[10px] uppercase font-black tracking-widest text-foreground/40">Choose Your Cause</label>
                 <select 
