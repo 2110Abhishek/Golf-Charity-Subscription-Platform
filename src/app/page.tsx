@@ -25,10 +25,7 @@ export default function Home() {
 
         {/* Mobile Nav */}
         <MobileMenu 
-          items={[
-            { name: 'Charities', href: '/charities' },
-            { name: 'Sign In', href: '/login' },
-          ]}
+          type="public"
           footer={
             <Link href="/signup" className="block w-full text-center px-6 py-4 rounded-2xl bg-primary text-primary-foreground font-bold">
               Get Started
