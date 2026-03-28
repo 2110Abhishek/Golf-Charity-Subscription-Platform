@@ -8,11 +8,11 @@ import {
   BarChart3, 
   Trophy, 
   Heart, 
-  CreditCard,
-  Settings,
-  Users,
-  Shield,
-  CheckCircle2
+  CreditCard, 
+  Settings, 
+  Users, 
+  Shield, 
+  CheckCircle2 
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -23,12 +23,17 @@ interface MobileMenuProps {
   footer?: React.ReactNode
 }
 
+/**
+ * Robust Mobile Menu component for production environments.
+ * Uses React Portals to solve stacking context issues 
+ * and persistent trigger rendering for hydration safety.
+ */
 export function MobileMenu({ type = 'public', logo, footer }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
-  // Ensure portal target exists and component is mounted on client
+  // Ensure component is on the client for Portals
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -38,7 +43,7 @@ export function MobileMenu({ type = 'public', logo, footer }: MobileMenuProps) {
     setIsOpen(false)
   }, [pathname])
 
-  // Prevent scrolling when menu is open
+  // Manage body scroll overflow
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -50,36 +55,28 @@ export function MobileMenu({ type = 'public', logo, footer }: MobileMenuProps) {
     }
   }, [isOpen])
 
-  if (!isOpen) {
-    return (
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="p-2 -mr-2 text-foreground/60 hover:text-white transition-colors"
-      >
-        <Menu className="w-6 h-6" />
-      </button>
-    )
-  }
-
-  // Determine mode based on path if default is passed
+  // Determine navigation mode based on path or explicit type
   const isDashboard = pathname?.startsWith('/dashboard')
   const isAdmin = pathname?.startsWith('/admin')
   const finalType = type === 'public' ? (isDashboard ? 'user' : isAdmin ? 'admin' : 'public') : type
 
-  const menuContent = (
-    <div className="fixed inset-0 bg-[#050505] z-[99999] flex flex-col p-6 overflow-hidden animate-in fade-in duration-200">
-      {/* Safe Area Header */}
+  const drawerContent = (
+    <div 
+      className="fixed inset-0 bg-[#050505] z-[9999] flex flex-col p-6 overflow-hidden animate-in fade-in duration-200"
+      style={{ isolation: 'isolate' }}
+    >
+      {/* Drawer Header */}
       <div className="flex items-center justify-between mb-8 mt-2">
         {logo || <div className="text-xl font-bold text-white tracking-tighter">ImpactSphere</div>}
         <button 
           onClick={() => setIsOpen(false)} 
-          className="bg-white/10 p-2 rounded-2xl hover:bg-white/20 transition-colors"
+          className="bg-zinc-800 p-2 rounded-2xl hover:bg-zinc-700 transition-colors"
         >
           <X className="w-8 h-8 text-white" />
         </button>
       </div>
 
-      {/* Navigation Links */}
+      {/* Nav List Wrapper */}
       <nav className="flex-1 flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
         {(finalType === 'user' || isDashboard) && (
           <div className="flex flex-col gap-3">
@@ -110,34 +107,46 @@ export function MobileMenu({ type = 'public', logo, footer }: MobileMenuProps) {
         )}
       </nav>
 
-      {/* Footer Area (Sign Out etc) */}
+      {/* Footer Area */}
       {footer && (
-        <div className="mt-auto pt-8 border-t border-white/10 pb-4">
+        <div className="mt-auto pt-8 border-t border-zinc-800/80 pb-6">
           {footer}
         </div>
       )}
     </div>
   )
 
-  // Use Portal to render into body, bypassing any header clipping/blur
-  if (mounted && isOpen) {
-    return createPortal(menuContent, document.body)
-  }
+  return (
+    <>
+      {/* Persistent trigger button remains in its place in the layout */}
+      <button 
+        onClick={() => setIsOpen(true)}
+        className="p-2 -mr-2 text-foreground/40 hover:text-white transition-colors block md:hidden"
+        aria-label="Open Mobile Menu"
+      >
+        <Menu className="w-6 h-6" />
+      </button>
 
-  return null
+      {/* Drawer rendered through Portal to Body to avoid stacking context issues */}
+      {mounted && isOpen && createPortal(drawerContent, document.body)}
+    </>
+  )
 }
 
+/**
+ * Individual Mobile Navigation Link
+ */
 function MobileNavLink({ href, name, icon: Icon, active }: { href: string; name: string; icon?: any; active: boolean }) {
   return (
     <Link
       href={href}
       className={`flex items-center gap-5 px-6 py-5 rounded-[2rem] text-xl font-bold transition-all active:scale-[0.98] ${
         active 
-          ? 'bg-primary text-black shadow-lg shadow-primary/20' 
-          : 'bg-white/5 text-white/70 hover:text-white hover:bg-white/10'
+          ? 'bg-primary text-black shadow-lg shadow-primary/30 border border-white/20' 
+          : 'bg-white/5 text-white/50 hover:text-white hover:bg-white/10 border border-transparent'
       }`}
     >
-      {Icon && <Icon className={`w-6 h-6 ${active ? 'text-black' : 'text-primary/60'}`} />}
+      {Icon && <Icon className={`w-6 h-6 ${active ? 'text-black' : 'text-primary/70'}`} />}
       {name}
     </Link>
   )

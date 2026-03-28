@@ -45,7 +45,7 @@ export default async function AdminLayout({
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col md:flex-row h-screen">
       {/* Admin Sidebar - Hidden on Mobile */}
-      <aside className="hidden md:flex w-64 border-r border-white/5 p-6 flex flex-col gap-8 bg-[#0a0a0a]">
+      <aside className="hidden md:flex w-64 border-r border-white/5 p-6 flex-col gap-8 bg-[#0a0a0a] h-full sticky top-0">
         <Link href="/" className="px-2">
           <div className="flex items-center gap-2 text-2xl font-black tracking-tighter">
             <span className="text-primary">Impact</span>Sphere
@@ -98,7 +98,7 @@ export default async function AdminLayout({
               }
             />
 
-            <div className="relative w-full max-w-sm hidden sm:block">
+            <div className="relative w-full max-w-sm hidden md:block">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/20" />
               <input 
                 placeholder="Search..." 

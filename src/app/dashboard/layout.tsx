@@ -30,7 +30,7 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col md:flex-row h-screen">
       {/* Sidebar - Hidden on Mobile */}
-      <aside className="hidden md:flex w-64 border-r border-white/5 p-6 flex-col gap-8 bg-[#0a0a0a]/50 backdrop-blur-xl">
+      <aside className="hidden md:flex w-64 border-r border-white/5 p-6 flex-col gap-8 bg-[#0a0a0a]/50 backdrop-blur-xl h-full sticky top-0">
         <Link href="/" className="text-2xl font-black tracking-tight px-2">
           <span className="text-primary">Impact</span>Sphere
         </Link>
